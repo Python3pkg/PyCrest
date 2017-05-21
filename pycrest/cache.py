@@ -5,7 +5,7 @@ import os
 try:
     import pickle
 except ImportError:  # pragma: no cover
-    import cPickle as pickle
+    import pickle as pickle
 
 import logging
 logger = logging.getLogger("pycrest.cache")

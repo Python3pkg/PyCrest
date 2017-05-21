@@ -17,8 +17,8 @@ from requests.adapters import HTTPAdapter
 import unittest
 
 try:
-    import __builtin__
-    builtins_name = __builtin__.__name__
+    import builtins
+    builtins_name = builtins.__name__
 except ImportError:
     import builtins
     builtins_name = builtins.__name__
@@ -75,7 +75,7 @@ def verify_mock(url, request):
 
 @httmock.all_requests
 def fallback_mock(url, request):
-    print("No mock for: %s" % request.url)
+    print(("No mock for: %s" % request.url))
     return httmock.response(
         status_code=404,
         content='{}')

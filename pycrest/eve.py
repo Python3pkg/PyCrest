@@ -8,12 +8,12 @@ from requests.adapters import HTTPAdapter
 try:
     from urllib.parse import urlparse, urlunparse, parse_qsl
 except ImportError:  # pragma: no cover
-    from urlparse import urlparse, urlunparse, parse_qsl
+    from urllib.parse import urlparse, urlunparse, parse_qsl
 
 try:
     from urllib.parse import quote
 except ImportError:  # pragma: no cover
-    from urllib import quote
+    from urllib.parse import quote
 import logging
 import re
 from pycrest.cache import DictCache, APICache, DummyCache
@@ -93,8 +93,8 @@ class APIConnection(object):
         # check cache
         key = (
             resource, frozenset(
-                self._session.headers.items()), frozenset(
-                prms.items()))
+                list(self._session.headers.items())), frozenset(
+                list(prms.items())))
         cached = self.cache.get(key)
         if cached and cached['expires'] > time.time():
             logger.debug(
@@ -127,8 +127,8 @@ class APIConnection(object):
         # cache result only if caching = True (default)
         key = (
             resource, frozenset(
-                self._session.headers.items()), frozenset(
-                prms.items()))
+                list(self._session.headers.items())), frozenset(
+                list(prms.items())))
 
         expires = self._get_expires(res)
         if expires > 0 and caching:
@@ -340,7 +340,7 @@ class APIObject(object):
     def __init__(self, parent, connection):
         self._dict = {}
         self.connection = connection
-        for k, v in parent.items():
+        for k, v in list(parent.items()):
             if isinstance(v, dict):
                 self._dict[k] = APIObject(v, connection)
             elif isinstance(v, list):

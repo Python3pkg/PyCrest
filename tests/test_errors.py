@@ -2,8 +2,8 @@ from pycrest.errors import APIException, UnsupportedHTTPMethodException
 import unittest
 
 try:
-    import __builtin__
-    builtins_name = __builtin__.__name__
+    import builtins
+    builtins_name = builtins.__name__
 except ImportError:
     import builtins
     builtins_name = builtins.__name__
